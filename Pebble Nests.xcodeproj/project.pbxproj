@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7231E27D1A23055A00A078F3 /* okButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 7231E27C1A23055A00A078F3 /* okButton.png */; };
+		7250A3F91A2407DE007B1E91 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7250A3F81A2407DE007B1E91 /* SettingsViewController.swift */; };
 		72C5FC091A1B0A7300D07DDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC081A1B0A7300D07DDC /* AppDelegate.swift */; };
 		72C5FC0B1A1B0A7300D07DDC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC0A1A1B0A7300D07DDC /* GameScene.sks */; };
 		72C5FC0D1A1B0A7300D07DDC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC0C1A1B0A7300D07DDC /* GameScene.swift */; };
@@ -15,6 +17,19 @@
 		72C5FC141A1B0A7300D07DDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC131A1B0A7300D07DDC /* Images.xcassets */; };
 		72C5FC171A1B0A7300D07DDC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC151A1B0A7300D07DDC /* LaunchScreen.xib */; };
 		72C5FC231A1B0A7300D07DDC /* Pebble_NestsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC221A1B0A7300D07DDC /* Pebble_NestsTests.swift */; };
+		72C5FC371A1B0BFC00D07DDC /* blink.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC2C1A1B0BFC00D07DDC /* blink.mp3 */; };
+		72C5FC381A1B0BFC00D07DDC /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC2D1A1B0BFC00D07DDC /* Board.swift */; };
+		72C5FC391A1B0BFC00D07DDC /* CustomExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC2E1A1B0BFC00D07DDC /* CustomExtensions.swift */; };
+		72C5FC3A1A1B0BFC00D07DDC /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC2F1A1B0BFC00D07DDC /* Game.swift */; };
+		72C5FC3B1A1B0BFC00D07DDC /* gameover.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC301A1B0BFC00D07DDC /* gameover.mp3 */; };
+		72C5FC3C1A1B0BFC00D07DDC /* Nest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC311A1B0BFC00D07DDC /* Nest.swift */; };
+		72C5FC3D1A1B0BFC00D07DDC /* nestclosed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC321A1B0BFC00D07DDC /* nestclosed.mp3 */; };
+		72C5FC3E1A1B0BFC00D07DDC /* pebble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC331A1B0BFC00D07DDC /* pebble.mp3 */; };
+		72C5FC3F1A1B0BFC00D07DDC /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC341A1B0BFC00D07DDC /* Player.swift */; };
+		72C5FC401A1B0BFC00D07DDC /* replay.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC351A1B0BFC00D07DDC /* replay.mp3 */; };
+		72C5FC411A1B0BFC00D07DDC /* turnend.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC361A1B0BFC00D07DDC /* turnend.mp3 */; };
+		72C5FC4C1A1B55F700D07DDC /* SettingsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC4B1A1B55F700D07DDC /* SettingsScene.sks */; };
+		72C5FC4E1A1B562400D07DDC /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC4D1A1B562400D07DDC /* SettingsScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7231E27C1A23055A00A078F3 /* okButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = okButton.png; sourceTree = "<group>"; };
+		7250A3F81A2407DE007B1E91 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		72C5FC031A1B0A7300D07DDC /* Pebble Nests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pebble Nests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C5FC071A1B0A7300D07DDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72C5FC081A1B0A7300D07DDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,6 +57,19 @@
 		72C5FC1C1A1B0A7300D07DDC /* Pebble NestsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pebble NestsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C5FC211A1B0A7300D07DDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72C5FC221A1B0A7300D07DDC /* Pebble_NestsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pebble_NestsTests.swift; sourceTree = "<group>"; };
+		72C5FC2C1A1B0BFC00D07DDC /* blink.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blink.mp3; sourceTree = "<group>"; };
+		72C5FC2D1A1B0BFC00D07DDC /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		72C5FC2E1A1B0BFC00D07DDC /* CustomExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtensions.swift; sourceTree = "<group>"; };
+		72C5FC2F1A1B0BFC00D07DDC /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		72C5FC301A1B0BFC00D07DDC /* gameover.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameover.mp3; sourceTree = "<group>"; };
+		72C5FC311A1B0BFC00D07DDC /* Nest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nest.swift; sourceTree = "<group>"; };
+		72C5FC321A1B0BFC00D07DDC /* nestclosed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = nestclosed.mp3; sourceTree = "<group>"; };
+		72C5FC331A1B0BFC00D07DDC /* pebble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pebble.mp3; sourceTree = "<group>"; };
+		72C5FC341A1B0BFC00D07DDC /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		72C5FC351A1B0BFC00D07DDC /* replay.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = replay.mp3; sourceTree = "<group>"; };
+		72C5FC361A1B0BFC00D07DDC /* turnend.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = turnend.mp3; sourceTree = "<group>"; };
+		72C5FC4B1A1B55F700D07DDC /* SettingsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SettingsScene.sks; sourceTree = "<group>"; };
+		72C5FC4D1A1B562400D07DDC /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,14 +111,24 @@
 		72C5FC051A1B0A7300D07DDC /* Pebble Nests */ = {
 			isa = PBXGroup;
 			children = (
+				7231E27C1A23055A00A078F3 /* okButton.png */,
+				72C5FC421A1B0C3E00D07DDC /* sounds */,
+				72C5FC2D1A1B0BFC00D07DDC /* Board.swift */,
+				72C5FC2E1A1B0BFC00D07DDC /* CustomExtensions.swift */,
+				72C5FC2F1A1B0BFC00D07DDC /* Game.swift */,
+				72C5FC311A1B0BFC00D07DDC /* Nest.swift */,
+				72C5FC341A1B0BFC00D07DDC /* Player.swift */,
 				72C5FC081A1B0A7300D07DDC /* AppDelegate.swift */,
 				72C5FC0A1A1B0A7300D07DDC /* GameScene.sks */,
 				72C5FC0C1A1B0A7300D07DDC /* GameScene.swift */,
 				72C5FC0E1A1B0A7300D07DDC /* GameViewController.swift */,
+				7250A3F81A2407DE007B1E91 /* SettingsViewController.swift */,
 				72C5FC101A1B0A7300D07DDC /* Main.storyboard */,
 				72C5FC131A1B0A7300D07DDC /* Images.xcassets */,
 				72C5FC151A1B0A7300D07DDC /* LaunchScreen.xib */,
 				72C5FC061A1B0A7300D07DDC /* Supporting Files */,
+				72C5FC4B1A1B55F700D07DDC /* SettingsScene.sks */,
+				72C5FC4D1A1B562400D07DDC /* SettingsScene.swift */,
 			);
 			path = "Pebble Nests";
 			sourceTree = "<group>";
@@ -116,6 +156,19 @@
 				72C5FC211A1B0A7300D07DDC /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		72C5FC421A1B0C3E00D07DDC /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				72C5FC2C1A1B0BFC00D07DDC /* blink.mp3 */,
+				72C5FC301A1B0BFC00D07DDC /* gameover.mp3 */,
+				72C5FC321A1B0BFC00D07DDC /* nestclosed.mp3 */,
+				72C5FC331A1B0BFC00D07DDC /* pebble.mp3 */,
+				72C5FC351A1B0BFC00D07DDC /* replay.mp3 */,
+				72C5FC361A1B0BFC00D07DDC /* turnend.mp3 */,
+			);
+			name = sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,9 +252,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				72C5FC171A1B0A7300D07DDC /* LaunchScreen.xib in Resources */,
+				7231E27D1A23055A00A078F3 /* okButton.png in Resources */,
 				72C5FC141A1B0A7300D07DDC /* Images.xcassets in Resources */,
+				72C5FC3E1A1B0BFC00D07DDC /* pebble.mp3 in Resources */,
+				72C5FC411A1B0BFC00D07DDC /* turnend.mp3 in Resources */,
+				72C5FC3B1A1B0BFC00D07DDC /* gameover.mp3 in Resources */,
+				72C5FC3D1A1B0BFC00D07DDC /* nestclosed.mp3 in Resources */,
 				72C5FC0B1A1B0A7300D07DDC /* GameScene.sks in Resources */,
 				72C5FC121A1B0A7300D07DDC /* Main.storyboard in Resources */,
+				72C5FC401A1B0BFC00D07DDC /* replay.mp3 in Resources */,
+				72C5FC4C1A1B55F700D07DDC /* SettingsScene.sks in Resources */,
+				72C5FC371A1B0BFC00D07DDC /* blink.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +281,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				72C5FC0D1A1B0A7300D07DDC /* GameScene.swift in Sources */,
+				72C5FC3A1A1B0BFC00D07DDC /* Game.swift in Sources */,
 				72C5FC0F1A1B0A7300D07DDC /* GameViewController.swift in Sources */,
+				7250A3F91A2407DE007B1E91 /* SettingsViewController.swift in Sources */,
+				72C5FC4E1A1B562400D07DDC /* SettingsScene.swift in Sources */,
+				72C5FC391A1B0BFC00D07DDC /* CustomExtensions.swift in Sources */,
+				72C5FC3F1A1B0BFC00D07DDC /* Player.swift in Sources */,
+				72C5FC381A1B0BFC00D07DDC /* Board.swift in Sources */,
+				72C5FC3C1A1B0BFC00D07DDC /* Nest.swift in Sources */,
 				72C5FC091A1B0A7300D07DDC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,6 +483,7 @@
 				72C5FC281A1B0A7300D07DDC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		72C5FC291A1B0A7300D07DDC /* Build configuration list for PBXNativeTarget "Pebble NestsTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +492,7 @@
 				72C5FC2B1A1B0A7300D07DDC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
