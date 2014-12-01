@@ -15,7 +15,6 @@ class Nest{
     var enabled:           Bool
     var pebbles:           [SKSpriteNode]
     unowned let player:    Player
-    let pebblePositions:   [CGPoint]
     var isMain:            Bool
     let nestId:            Int
     
@@ -27,14 +26,12 @@ class Nest{
         self.image.name        = "nest"
         self.image.position    = location
         self.image.zPosition   = 10
-        
         self.enabled           = isEnabled
         self.pebbles           = []
-        self.pebblePositions   = [CGPointMake(0,0),CGPointMake(-15,-15),CGPointMake(15,15),CGPointMake(-15,15),CGPointMake(15,-15)]
+        self.isMain            = false
+        self.nestId            = nestId
         
-        self.isMain     = false
-        self.nestId     = nestId
-        
+        let pebblePositions = Nest.pebblePositions()
         for( var i=0; i<pebbleCount; i++ )
         {
             self.addNewPebble(pebblePositions[i])
@@ -185,9 +182,10 @@ class Nest{
     {
         if( self.pebbles.count <= 5 )
         {
+            let pebblePositions = Nest.pebblePositions()
             for (i,p) in enumerate(self.pebbles)
             {
-                p.position = self.pebblePositions[i]
+                p.position = pebblePositions[i]
             }
         }
         else
@@ -283,8 +281,8 @@ class Nest{
             
             self.movePebblesToTray()
             
-            self.image.colorBlendFactor = 1.0
-            self.image.color            = SKColor.whiteColor()
+            //self.image.colorBlendFactor = 1.0
+            //self.image.color            = SKColor.whiteColor()
             
             self.printPebbleCount()
             var pebbles     = tray!.children as [SKSpriteNode]
@@ -292,6 +290,19 @@ class Nest{
             currentPlayer.playPebbles(pebbles,chain: nestChain, activeNest: self)
             
         })
+    }
+    
+    class func pebblePositions()->[CGPoint]
+    {
+        return [CGPointMake(0,0),CGPointMake(-15,-15),CGPointMake(15,15),CGPointMake(-15,15),CGPointMake(15,-15)]
+    }
+    
+    deinit
+    {
+        self.pebbles.map({$0.removeFromParent()})
+        self.pebbles.removeAll(keepCapacity: false)
+        self.image = SKSpriteNode()
+        
     }
 }
 

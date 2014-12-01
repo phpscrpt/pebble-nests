@@ -16,8 +16,9 @@ enum GameStatus{
 // let gameSettings = NSUserDefaults.standardUserDefaults()
 
 
-enum GameMode{
-    case CompXComp, CompXHuman, HumanXHuman
+enum GameMode:Int{
+    case CompXHuman=0, CompXComp=1, HumanXHuman=2
+    
     
     func name()->String{
         switch self{
@@ -124,14 +125,17 @@ class Game{
         {
             self.players.map({$0.autoPlay=true})
             
-            self.players[0].name="Computer1"
-            self.players[1].name="Computer2"
+            self.players[0].name="Comp1"
+            self.players[1].name="Comp2"
             
             self.players[0].isThirdPerson=true
             self.players[1].isThirdPerson=true
         }
         else if self.mode == GameMode.CompXHuman
         {
+            self.players[0].name="Comp"
+            self.players[1].name="You"
+            
             self.players[0].autoPlay=true
             self.players[0].isThirdPerson=true
             
@@ -164,9 +168,8 @@ class Game{
     {
         
         var pebbleList:[SKSpriteNode] = []
-        var gamePlayers = self.players
         
-        for currentPlayer in gamePlayers
+        for currentPlayer in self.players
         {
             for nest in currentPlayer.board!.nests.filter({$0.enabled})
             {
@@ -180,7 +183,7 @@ class Game{
             }
         }
         
-        for currentPlayer in gamePlayers
+        for currentPlayer in self.players
         {
             for nest in currentPlayer.board!.nests.filter({$0.enabled})
             {
@@ -223,12 +226,32 @@ class Game{
         
         //----- fade out-in gam board ----
         
+        /*
         let fadeOutAction   = GameActions.boardFadeOut.action()
         let fadeInAction    = GameActions.boardFadeIn.action()
         let blink           = SKAction.sequence([fadeOutAction,fadeInAction])
         let blinkForTime    = SKAction.repeatAction(blink, count:50)
         
         self.gameScene.childNodeWithName("gameBoard")!.runAction(blinkForTime)
+        */
+        
+        let gameOverMessage = "\(winner.name) wins!"
+        
+        // Create the alert controller
+        var alertController = UIAlertController(title: "Game Over!", message: gameOverMessage, preferredStyle: .Alert)
+        
+        // Create the actions
+        var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            //NSLog("OK Pressed")
+        }
+        
+        
+        // Add the actions
+        alertController.addAction(okAction)
+        
+        // Present the controller
+        self.gameScene.view?.window?.rootViewController!.presentViewController(alertController, animated: true, completion: nil)
         
     }
     
@@ -236,7 +259,7 @@ class Game{
     {
         self.prevStatus     = self.status
         self.status         = GameStatus.PAUSED
-        self.gameScene.view!.paused=true
+        self.gameScene.paused = true
     }
     
     func resume()
@@ -244,7 +267,7 @@ class Game{
         if let stat = self.prevStatus
         {
             self.status     = self.prevStatus!
-            self.gameScene.view!.paused=false
+            self.gameScene.paused = false
         }
     }
     
@@ -280,6 +303,16 @@ class Game{
         
         //--- more settings to be applied here -----
         
+    }
+    
+    deinit
+    {
+        self.activePlayer = nil
+        self.players.removeAll(keepCapacity: false)
+        self.prevStatus   = nil
+        self.tray.removeAllActions()
+        self.tray.removeAllChildren()
+        self.tray.removeFromParent()
     }
 }
 

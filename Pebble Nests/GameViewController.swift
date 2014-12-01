@@ -42,14 +42,15 @@ class GameViewController: UIViewController {
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
-                        
             skView.presentScene(scene)
+  
+            
         }
 
     }
 
     override func shouldAutorotate() -> Bool {
-        return true
+        return false
     }
 
     override func supportedInterfaceOrientations() -> Int {
@@ -68,4 +69,10 @@ class GameViewController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    deinit
+    {
+        self.view.removeFromSuperview()
+    }
+    
 }

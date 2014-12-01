@@ -25,7 +25,7 @@ class Board{
         rowLabel.fontColor = SKColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         rowLabel.text      = label
         rowLabel.fontSize  = 16
-        rowLabel.position  = CGPoint(x:70,y:10)
+        rowLabel.position  = CGPoint(x:63,y:10)
         
         row.position       = position
         row.addChild(rowLabel)
@@ -97,6 +97,13 @@ class Board{
         {
             n.pebbles.map({$0.runAction(SKAction.repeatActionForever(pulse),withKey:"pulsePebbles")})
         }
+    }
+    
+    deinit
+    {
+        self.nests.removeAll(keepCapacity: false)
+        self.row.removeAllChildren()
+        self.row.removeFromParent()
     }
     
 }

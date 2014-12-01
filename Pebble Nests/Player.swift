@@ -219,7 +219,7 @@ class Player{
                 nest!.disable()
                 nest!.image.texture = SKTexture(imageNamed: "nestClosed")
                 nest!.pebbles.map({$0.hidden=true})
-                
+                //nest!.pebbles.map({$0.removeFromParent()})
                 /*
                 nest!.image.colorBlendFactor = 1.0
                 nest!.image.color            = SKColor.blackColor()
@@ -401,5 +401,9 @@ class Player{
         return nil
     }
     
+    deinit
+    {
+        self.board=nil
+    }
     
 }

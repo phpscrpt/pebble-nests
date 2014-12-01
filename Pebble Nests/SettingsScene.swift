@@ -18,10 +18,13 @@ protocol SettingsSceneDelegate
 class SettingsScene: SKScene {
     
     var switchButton:UISwitch?
+    @IBOutlet var modeSegmentedControl : UISegmentedControl?
     var thisDelegate: SettingsSceneDelegate?
     
     override func didMoveToView(view: SKView) {
         
+        //---- default settings that were saved previously ----
+        let gameSettings = NSUserDefaults.standardUserDefaults()
         
         //--------- SETTINGS BOARD ------------------------
         
@@ -34,26 +37,41 @@ class SettingsScene: SKScene {
         
         //---- scene name --
         
-        let sceneLabel       = self.sceneLabel(CGRectMake(0, 20, settingsBoard.frame.width-20, 30))
+        let sceneLabel       = self.sceneLabel(CGRectMake(5.0, 20.0, settingsBoard.frame.width-20, 30))
         settingsBoard.addSubview(sceneLabel)
         
-        //---- buttons ----
+        
+        //--- GAME MODE PICKER ---------------------------
+        
+        //let modeLabel  = self.fieldLabel(CGRectMake(0.0, 70.0, 50.0, 30),text:"Mode:")
+        //settingsBoard.addSubview(modeLabel)
+        
+        let pickerFrame   = CGRectMake(5, 70, settingsBoard.frame.width-10, 30)
+        let modePicker    = self.modePicker(pickerFrame)
+        
+        if ( gameSettings.objectForKey("mode") != nil )
+        {
+            modePicker.selectedSegmentIndex = gameSettings.integerForKey("mode")
+        }
+        
+        settingsBoard.addSubview(modePicker)
+        self.modeSegmentedControl = modePicker
+        
         
         //------- SWITCH AUDIO BUTTON ----------------------
         
-        let switchFrame   = CGRectMake(100.0, (boardSize.height/2 - 30), 50.0, 25.0)
+        let switchLabel  = self.fieldLabel(CGRectMake(5.0, 110.0, 50, 30.0),text:"Audio:")
+        settingsBoard.addSubview(switchLabel)
+        
+        let switchFrame   = CGRectMake(70.0, 110, 50.0, 30)
         let swButton      = UISwitch(frame:switchFrame)
         swButton.setOn(true, animated: false)
         swButton.addTarget(self, action: "audioButtonAction", forControlEvents: UIControlEvents.ValueChanged)
         
-        let gameSettings = NSUserDefaults.standardUserDefaults()
         if ( gameSettings.objectForKey("audio") != nil)
         {
             swButton.on = gameSettings.boolForKey("audio")
         }
-        
-        let switchLabel  = self.fieldLabel(CGRectMake(10.0, (boardSize.height/2 - 30), 100.0, 25.0),text:"Audio:")
-        settingsBoard.addSubview(switchLabel)
         
         settingsBoard.addSubview(swButton)
         self.switchButton = swButton
@@ -61,19 +79,9 @@ class SettingsScene: SKScene {
         //---- OK BUTTON ---------------------------------
         
         let leftMargin = view.bounds.width/4
-        let topMargin  = view.bounds.height/5
-        let okButton   = self.okButton(CGRectMake(leftMargin, topMargin + 30,100,50))
+        let topMargin:CGFloat  = 150.0
+        let okButton   = self.okButton(CGRectMake(leftMargin, topMargin,100,50))
         settingsBoard.addSubview(okButton)
-        
-        //--- GAME MODE PICKER ---------------------------
-        
-        let modeLabel  = self.fieldLabel(CGRectMake(10.0, (boardSize.height/2 - 30), 100.0, 25.0),text:"Game Mode:")
-        settingsBoard.addSubview(modeLabel)
-        
-        
-        let pickerFrame   = CGRectMake(100.0, 60, 100.0, 25.0)
-        let modePicker    = self.modePicker(pickerFrame)
-        settingsBoard.addSubview(modePicker)
         
         view.addSubview(settingsBoard)
         
@@ -139,20 +147,61 @@ class SettingsScene: SKScene {
         return okButton
     }
     
-    func modePicker(frame:CGRect)->UIPickerView
+    func modePicker(frame:CGRect)->UISegmentedControl
     {
-        let picker = UIPickerView(frame: frame)
+        let modeOptions:[String] = ["CompXHuman","CompXComp","HumanXHuman"]
+        let picker = UISegmentedControl(items: modeOptions)
+        picker.frame = frame
+        //set the style for the segmented control
+        picker.selectedSegmentIndex = 0
         
+        let font:UIFont = UIFont.boldSystemFontOfSize(10.0)
+        let attributes:NSDictionary  = NSDictionary(object:font,forKey:NSFontAttributeName)
+        picker.setTitleTextAttributes(attributes,forState:UIControlState.Normal)
+        
+        picker.addTarget(self,action:"modeChanged:",forControlEvents:UIControlEvents.ValueChanged)
         
         return picker
     }
     
-    func okAction(sender:UIButton!) {
+    func okAction(sender:UIButton!)
+    {
         if sender!.currentTitle=="OK"
         {
             // close ReplayScene and start the game again
             self.thisDelegate!.settingsOk(self, command: "SettingsOk")
         }
+    }
+    
+    func modeChanged(sender : UISegmentedControl)
+    {
+        let gameSettings = NSUserDefaults.standardUserDefaults()
+        gameSettings.setInteger(Int(sender.selectedSegmentIndex),forKey:"mode")
+        
+        let modeMessage = "This will take effect next time you start a game!"
+        
+        // Create the alert controller
+        var alertController = UIAlertController(title: "Game Mode Changed!", message: modeMessage, preferredStyle: .Alert)
+        
+        // Create the actions
+        var okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            //NSLog("OK Pressed")
+        }
+        
+        
+        // Add the actions
+        alertController.addAction(okAction)
+        
+        // Present the controller
+        self.view?.window?.rootViewController!.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    deinit
+    {
+        self.switchButton = nil
+        self.modeSegmentedControl = nil
+        self.thisDelegate = nil
     }
     
 }
