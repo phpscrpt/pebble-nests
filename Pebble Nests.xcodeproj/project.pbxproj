@@ -17,7 +17,6 @@
 		72C5FC231A1B0A7300D07DDC /* Pebble_NestsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC221A1B0A7300D07DDC /* Pebble_NestsTests.swift */; };
 		72C5FC371A1B0BFC00D07DDC /* blink.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC2C1A1B0BFC00D07DDC /* blink.mp3 */; };
 		72C5FC381A1B0BFC00D07DDC /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC2D1A1B0BFC00D07DDC /* Board.swift */; };
-		72C5FC391A1B0BFC00D07DDC /* CustomExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC2E1A1B0BFC00D07DDC /* CustomExtensions.swift */; };
 		72C5FC3A1A1B0BFC00D07DDC /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC2F1A1B0BFC00D07DDC /* Game.swift */; };
 		72C5FC3B1A1B0BFC00D07DDC /* gameover.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC301A1B0BFC00D07DDC /* gameover.mp3 */; };
 		72C5FC3C1A1B0BFC00D07DDC /* Nest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC311A1B0BFC00D07DDC /* Nest.swift */; };
@@ -55,7 +54,6 @@
 		72C5FC221A1B0A7300D07DDC /* Pebble_NestsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pebble_NestsTests.swift; sourceTree = "<group>"; };
 		72C5FC2C1A1B0BFC00D07DDC /* blink.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = blink.mp3; sourceTree = "<group>"; };
 		72C5FC2D1A1B0BFC00D07DDC /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		72C5FC2E1A1B0BFC00D07DDC /* CustomExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtensions.swift; sourceTree = "<group>"; };
 		72C5FC2F1A1B0BFC00D07DDC /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		72C5FC301A1B0BFC00D07DDC /* gameover.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameover.mp3; sourceTree = "<group>"; };
 		72C5FC311A1B0BFC00D07DDC /* Nest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nest.swift; sourceTree = "<group>"; };
@@ -109,7 +107,6 @@
 			children = (
 				72C5FC421A1B0C3E00D07DDC /* sounds */,
 				72C5FC2D1A1B0BFC00D07DDC /* Board.swift */,
-				72C5FC2E1A1B0BFC00D07DDC /* CustomExtensions.swift */,
 				72C5FC2F1A1B0BFC00D07DDC /* Game.swift */,
 				72C5FC0E1A1B0A7300D07DDC /* GameViewController.swift */,
 				72C5FC0C1A1B0A7300D07DDC /* GameScene.swift */,
@@ -277,7 +274,6 @@
 				72C5FC3A1A1B0BFC00D07DDC /* Game.swift in Sources */,
 				72C5FC0F1A1B0A7300D07DDC /* GameViewController.swift in Sources */,
 				72C5FC4E1A1B562400D07DDC /* SettingsScene.swift in Sources */,
-				72C5FC391A1B0BFC00D07DDC /* CustomExtensions.swift in Sources */,
 				72C5FC3F1A1B0BFC00D07DDC /* Player.swift in Sources */,
 				72C5FC381A1B0BFC00D07DDC /* Board.swift in Sources */,
 				72C5FC3C1A1B0BFC00D07DDC /* Nest.swift in Sources */,

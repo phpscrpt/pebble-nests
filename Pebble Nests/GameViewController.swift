@@ -43,6 +43,11 @@ class GameViewController: UIViewController {
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
             skView.presentScene(scene)
+            
+            /*
+            let adFrame        = CGRect(x:midX,y:midY,width: 280,height: 50)
+            let adBoard        = ADBannerView(frame: adFrame )
+            view.addSubview(adBoard)*/
   
             
         }

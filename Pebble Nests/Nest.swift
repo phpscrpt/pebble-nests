@@ -13,7 +13,7 @@ class Nest{
     
     var image:             SKSpriteNode
     var enabled:           Bool
-    var pebbles:           [SKSpriteNode]
+    var pebbles:           [SKSpriteNode?]
     unowned let player:    Player
     var isMain:            Bool
     let nestId:            Int
@@ -161,20 +161,11 @@ class Nest{
     {
         for p in self.pebbles
         {
-            p.removeFromParent()
-            self.player.game?.tray.addChild(p)
+            p!.removeFromParent()
+            self.player.game?.tray.addChild(p!)
         }
         
         self.pebbles.removeAll()
-        
-    }
-    
-    func unorganizePebbles()
-    {
-        for p in self.pebbles
-        {
-            p.physicsBody?.dynamic = false
-        }
         
     }
     
@@ -185,7 +176,7 @@ class Nest{
             let pebblePositions = Nest.pebblePositions()
             for (i,p) in enumerate(self.pebbles)
             {
-                p.position = pebblePositions[i]
+                p!.position = pebblePositions[i]
             }
         }
         else
@@ -198,13 +189,13 @@ class Nest{
             {
                 if( i == 0 )
                 {
-                    p.position = CGPoint(x:0,y:0)
+                    p!.position = CGPoint(x:0,y:0)
                 }
                 else
                 {
                     let newX = (r+CGFloat(i+2))*cos(a)
                     let newY = (r+CGFloat(i+2))*sin(a)
-                    p.position = CGPoint(x:newX,y:newY)
+                    p!.position = CGPoint(x:newX,y:newY)
                     a += CGFloat(M_PI/4)
                     
                 }
@@ -260,14 +251,15 @@ class Nest{
     
     func movePebblesAndBlink(nestChain: [Nest],currentPlayer:Player)
     {
-        let fadeOutAction   = GameActions.nestFadeOut.action()
-        let fadeInAction    = GameActions.nestFadeIn.action()
-        let blinkSound      = GameActions.blinkSound.action()
-        var blink:SKAction
+        let fadeOutAction           = GameActions.nestFadeOut.action()
+        let fadeInAction            = GameActions.nestFadeIn.action()
+        
+        let blinkSound              = self.player.game?.gameScene.getSound(GameActions.blinkSound.name())
+        var blink: SKAction
         
         if self.player.game?.audio == true
         {
-            blink           = SKAction.sequence([fadeOutAction,blinkSound,fadeInAction])
+            blink           = SKAction.sequence([fadeOutAction,blinkSound!,fadeInAction])
         }
         else
         {
@@ -299,9 +291,11 @@ class Nest{
     
     deinit
     {
-        self.pebbles.map({$0.removeFromParent()})
+        self.pebbles.map({$0!.removeFromParent();})
         self.pebbles.removeAll(keepCapacity: false)
-        self.image = SKSpriteNode()
+        self.pebbles=[]
+        self.image.removeAllChildren()
+        self.image.removeFromParent()
         
     }
 }

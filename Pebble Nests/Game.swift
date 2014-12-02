@@ -51,11 +51,11 @@ enum GameActions{
         
         switch self {
         case .movePebbleSound:
-            return SKAction.playSoundFileNamed("pebble.mp3", waitForCompletion: false)
+            return SKAction.playSoundFileNamed(self.name(), waitForCompletion: false)
         case .turnEnd:
-            return SKAction.playSoundFileNamed("turnend.mp3", waitForCompletion: false)
+            return SKAction.playSoundFileNamed(self.name(), waitForCompletion: false)
         case .blinkSound:
-            return SKAction.playSoundFileNamed("blink.mp3", waitForCompletion: false)
+            return SKAction.playSoundFileNamed(self.name(), waitForCompletion: false)
         case .nestFadeOut:
             return SKAction.fadeOutWithDuration(0.2)
         case .nestFadeIn:
@@ -65,13 +65,33 @@ enum GameActions{
         case .boardFadeIn:
             return SKAction.fadeInWithDuration(3)
         case .nestClosedSound:
-            return SKAction.playSoundFileNamed("nestclosed.mp3", waitForCompletion: true)
+            return SKAction.playSoundFileNamed(self.name(), waitForCompletion: true)
         case .gameOver:
-            return SKAction.playSoundFileNamed("gameover.mp3", waitForCompletion: true)
+            return SKAction.playSoundFileNamed(self.name(), waitForCompletion: true)
         case .replayGameSound:
-            return SKAction.playSoundFileNamed("replay.mp3", waitForCompletion: true)
+            return SKAction.playSoundFileNamed(self.name(), waitForCompletion: true)
         default:
             return SKAction.waitForDuration(0.001)
+        }
+    }
+    
+    func name()->String{
+        
+        switch self {
+        case .movePebbleSound:
+            return "pebble.mp3"
+        case .turnEnd:
+            return "turnend.mp3"
+        case .blinkSound:
+            return "blink.mp3"
+        case .nestClosedSound:
+            return "nestclosed.mp3"
+        case .gameOver:
+            return "gameover.mp3"
+        case .replayGameSound:
+            return "replay.mp3"
+        default:
+            return ""
         }
     }
     
@@ -87,7 +107,7 @@ class Game{
     var prevStatus:           GameStatus?
     unowned var gameScene:    GameScene
     let tray:                 SKSpriteNode
-    let moveDuration:NSTimeInterval = 0.5
+    let moveDuration:NSTimeInterval = 0.4
     
     let mode:                 GameMode
     var audio:                Bool
@@ -171,15 +191,19 @@ class Game{
         
         for currentPlayer in self.players
         {
-            for nest in currentPlayer.board!.nests.filter({$0.enabled})
-            {
-                for pebble in nest.pebbles
+            autoreleasepool {
+                
+                for nest in currentPlayer.board!.nests.filter({$0.enabled})
                 {
-                    nest.removePebble()
-                    nest.removePebbleImage(pebble)
-                    pebbleList.append(pebble)
-                    
+                    for pebble in nest.pebbles
+                    {
+                        nest.removePebble()
+                        nest.removePebbleImage(pebble!)
+                        pebbleList.append(pebble!)
+                        
+                    }
                 }
+                
             }
         }
         
@@ -189,12 +213,15 @@ class Game{
             {
                 if( !nest.isMain )
                 {
-                    for i in 1...5
-                    {
-                        let p = pebbleList.removeLast()
-                        p.hidden=false
-                        nest.addPebble(p)
-                        nest.addPebbleImage(p)
+                    autoreleasepool {
+                        
+                        for i in 1...5
+                        {
+                            let p = pebbleList.removeLast()
+                            p.hidden=false
+                            nest.addPebble(p)
+                            nest.addPebbleImage(p)
+                        }
                     }
                     
                     nest.resetAttr()
@@ -259,7 +286,6 @@ class Game{
     {
         self.prevStatus     = self.status
         self.status         = GameStatus.PAUSED
-        self.gameScene.paused = true
     }
     
     func resume()
@@ -267,7 +293,7 @@ class Game{
         if let stat = self.prevStatus
         {
             self.status     = self.prevStatus!
-            self.gameScene.paused = false
+            self.prevStatus = nil
         }
     }
     
@@ -287,7 +313,7 @@ class Game{
     {
         if self.audio == true
         {
-            let nestClosedSound = GameActions.nestClosedSound.action()
+            let nestClosedSound = self.gameScene.getSound(GameActions.nestClosedSound.name())
             self.gameScene.runAction(nestClosedSound)
         }
     }

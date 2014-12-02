@@ -14,10 +14,13 @@ class GameScene: SKScene, SettingsSceneDelegate {
     var game: Game?
     var settingsView: SKView?
     var manuallyPaused: Bool=false
+    var sounds:[String:SKAction]?
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
+        //--- preload sound actions ----
+        self.loadSounds()
         
         let boardSize      = CGSize(width:280,height: 500)
         let gameBoard      = SKSpriteNode(imageNamed:"board")
@@ -55,6 +58,7 @@ class GameScene: SKScene, SettingsSceneDelegate {
         
         player1.declareNotPlaying()
         player2.declarePlaying()
+        player2.board?.unstabilizeNests()
         
         //---- buttons ----
         
@@ -73,7 +77,7 @@ class GameScene: SKScene, SettingsSceneDelegate {
         replayButton.position = CGPointMake(70, -290)
         gameBoard.addChild(replayButton)
         
-        player2.board?.unstabilizeNests()
+        //------- Settings View and Scene ------
         
         self.settingsView = SKView(
             frame: CGRectMake(
@@ -81,6 +85,7 @@ class GameScene: SKScene, SettingsSceneDelegate {
                 self.view!.frame.width, self.view!.frame.height))
         
         self.settingsView!.ignoresSiblingOrder = true
+        self.settingsView!.opaque=true
         
         let settingsScene            = SettingsScene.unarchiveFromFile("SettingsScene") as? SettingsScene
         settingsScene!.scaleMode     = .AspectFill
@@ -88,10 +93,11 @@ class GameScene: SKScene, SettingsSceneDelegate {
         self.settingsView!.presentScene(settingsScene!)
         
         //------ add pauseGame action as observer to pause the game
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pauseGame", name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pauseGameAuto", name: UIApplicationWillResignActiveNotification, object: nil)
+        
         
         //------ add resumeGame action as observer to resume the game
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "resumeGame", name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "resumeGameAuto", name: UIApplicationDidBecomeActiveNotification, object: nil)
         
     }
     
@@ -148,7 +154,8 @@ class GameScene: SKScene, SettingsSceneDelegate {
             
             if newGameScene?.game?.audio == true
             {
-                newGameScene!.runAction(GameActions.replayGameSound.action())
+                let replaySound = self.getSound(GameActions.nestClosedSound.name())
+                newGameScene!.runAction(replaySound)
             }
             
             
@@ -156,7 +163,7 @@ class GameScene: SKScene, SettingsSceneDelegate {
         else if( node.name == "helpButton" )
         {
             self.manuallyPaused = true
-            self.game?.pause()
+            self.pauseGame()
             
             let howToPlay = "The objective of the game is to move all pebbles you have in 4 nests to either your main nest or to your opponent's side. Each time you empty all your nests, you cover one of your nests. The game ends when one of players covers all nests he/she has. You may have to push pebbles of your opponent backward or add pebbles to his/her nests in order to make it difficult for him/her to win. Therefore, you need to calculate up to which nest your pebbles can reach before selecting a nest to play."
             
@@ -191,7 +198,7 @@ class GameScene: SKScene, SettingsSceneDelegate {
             
             //-- pause the game for a while ---
             self.manuallyPaused = true
-            self.game?.pause()
+            self.pauseGame()
             
             self.view!.addSubview(self.settingsView!)
             
@@ -225,6 +232,22 @@ class GameScene: SKScene, SettingsSceneDelegate {
         }
     }
     
+    func loadSounds()
+    {
+        self.sounds = [:]
+        self.sounds?[GameActions.movePebbleSound.name()] = GameActions.movePebbleSound.action()
+        self.sounds?[GameActions.blinkSound.name()]      = GameActions.blinkSound.action()
+        self.sounds?[GameActions.turnEnd.name()]         = GameActions.turnEnd.action()
+        self.sounds?[GameActions.nestClosedSound.name()] = GameActions.nestClosedSound.action()
+        self.sounds?[GameActions.gameOver.name()]        = GameActions.gameOver.action()
+        self.sounds?[GameActions.replayGameSound.name()] = GameActions.replayGameSound.action()
+        
+    }
+    
+    func getSound(sound:String)->SKAction
+    {
+        return self.sounds![sound]!
+    }
     
     func releaseSubViews(var subs:[UIView])
     {
@@ -253,24 +276,49 @@ class GameScene: SKScene, SettingsSceneDelegate {
         {
             self.manuallyPaused = false
             self.game?.refreshSettings()
-            self.game?.self.resume() 
+            self.resumeGame()
         }
     }
     
     func pauseGame()
     {
+        self.view?.paused=true
         self.game?.pause()
     }
     
     func resumeGame()
     {
+        self.view?.paused=false
         self.game?.resume()
+    }
+    
+    func pauseGameAuto()
+    {
+        if( !self.manuallyPaused )
+        {
+            self.pauseGame()
+        }
+    }
+    
+    func resumeGameAuto()
+    {
+        if( !self.manuallyPaused )
+        {
+            self.resumeGame()
+        }
+        else
+        {
+            self.view?.paused=true
+        }
+
     }
     
     deinit
     {
         self.game=nil
         self.settingsView=nil
+        self.sounds=nil
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
 }

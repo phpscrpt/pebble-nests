@@ -218,7 +218,7 @@ class Player{
                 let nest = nests!.first
                 nest!.disable()
                 nest!.image.texture = SKTexture(imageNamed: "nestClosed")
-                nest!.pebbles.map({$0.hidden=true})
+                nest!.pebbles.map({$0!.hidden=true})
                 //nest!.pebbles.map({$0.removeFromParent()})
                 /*
                 nest!.image.colorBlendFactor = 1.0
@@ -265,7 +265,8 @@ class Player{
             
             if self.game?.audio == true
             {
-                pebble.runAction(GameActions.movePebbleSound.action())
+                let pebbleSound = self.game?.gameScene.getSound(GameActions.movePebbleSound.name())
+                pebble.runAction(pebbleSound!)
             }
             
             pebble.removeFromParent()
@@ -352,7 +353,8 @@ class Player{
         {
             if self.game?.audio == true
             {
-                self.game?.gameScene.runAction(GameActions.turnEnd.action())
+                let turnEnd = self.game?.gameScene.getSound(GameActions.turnEnd.name())
+                self.game?.gameScene.runAction(turnEnd)
             }
             
             self.setTurn(false)
@@ -404,6 +406,7 @@ class Player{
     deinit
     {
         self.board=nil
+        self.name=""
     }
     
 }

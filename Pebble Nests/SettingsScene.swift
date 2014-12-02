@@ -108,7 +108,7 @@ class SettingsScene: SKScene {
         let sceneLabel       = UILabel(frame: labelFrame)
         sceneLabel.font      = UIFont(name: "Futura", size: 20)
         sceneLabel.textColor = SKColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        sceneLabel.text      = "Pebble Nest - Game Settings"
+        sceneLabel.text      = "Pebble Nests - Game Settings"
         sceneLabel.tag       = 11
         sceneLabel.textAlignment    = .Center
         sceneLabel.adjustsFontSizeToFitWidth = true

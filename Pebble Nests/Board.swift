@@ -45,24 +45,27 @@ class Board{
         
         for (var i=0; i<count; i++)
         {
-            
-            let xCoord       = xInit
-            let yCoord       = yInit + (i+1) * height
-            let nestLocation = CGPoint(x: xCoord, y: yCoord)
-            var nest: Nest
-            
-            if( i < count - 1 )
-            {
-                nest = Nest(owner: self.player,location: nestLocation,isEnabled: true,nestId: nestId+i+1)
+            autoreleasepool {
+                
+                let xCoord       = xInit
+                let yCoord       = yInit + (i+1) * height
+                let nestLocation = CGPoint(x: xCoord, y: yCoord)
+                var nest: Nest
+                
+                if( i < count - 1 )
+                {
+                    nest = Nest(owner: self.player,location: nestLocation,isEnabled: true,nestId: nestId+i+1)
+                }
+                else
+                {
+                    nest = Nest(owner: self.player,image:"nestMain",location: nestLocation,isEnabled: true,pebbleCount: 0,nestId: nestId+i+1)
+                    nest.isMain = true
+                }
+                
+                self.row.addChild(nest.image)
+                self.nests.append(nest)
+                
             }
-            else
-            {
-                nest = Nest(owner: self.player,image:"nestMain",location: nestLocation,isEnabled: true,pebbleCount: 0,nestId: nestId+i+1)
-                nest.isMain = true
-            }
-            
-            self.row.addChild(nest.image)
-            self.nests.append(nest)
             
         }
     }
@@ -79,9 +82,9 @@ class Board{
             n.pebbles.map({
                 
                 (var pebble)->SKSpriteNode in
-                pebble.removeActionForKey("pulsePebbles")
-                pebble.setScale(1.0)
-                return pebble
+                pebble!.removeActionForKey("pulsePebbles")
+                pebble!.setScale(1.0)
+                return pebble!
             })
         }
     }
@@ -95,7 +98,7 @@ class Board{
         
         for n in self.playableNests()
         {
-            n.pebbles.map({$0.runAction(SKAction.repeatActionForever(pulse),withKey:"pulsePebbles")})
+            n.pebbles.map({$0!.runAction(SKAction.repeatActionForever(pulse),withKey:"pulsePebbles")})
         }
     }
     
