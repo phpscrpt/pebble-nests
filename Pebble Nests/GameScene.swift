@@ -200,7 +200,14 @@ class GameScene: SKScene, SettingsSceneDelegate {
             self.manuallyPaused = true
             self.pauseGame()
             
-            self.view!.addSubview(self.settingsView!)
+            // set a transition style
+            let transitionOptions = UIViewAnimationOptions.TransitionFlipFromLeft
+            
+            UIView.transitionWithView(self.view!, duration: 1.0, options: transitionOptions, animations: {
+                // remove the front object...
+                self.view!.addSubview(self.settingsView!)
+                
+                }, completion: nil)
             
         }
         else if let player  = self.game?.whosTurn()

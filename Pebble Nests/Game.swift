@@ -249,7 +249,7 @@ class Game{
         }
         
         //---- declare the winner ------
-        winner.declareAsWinner()
+        let winnerText = winner.declareAsWinner()
         
         //----- fade out-in gam board ----
         
@@ -262,7 +262,7 @@ class Game{
         self.gameScene.childNodeWithName("gameBoard")!.runAction(blinkForTime)
         */
         
-        let gameOverMessage = "\(winner.name) wins!"
+        let gameOverMessage = winnerText
         
         // Create the alert controller
         var alertController = UIAlertController(title: "Game Over!", message: gameOverMessage, preferredStyle: .Alert)

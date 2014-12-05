@@ -123,21 +123,24 @@ class Player{
         }
     }
     
-    func declareAsWinner()
+    func declareAsWinner()->String
     {
-        let label:SKLabelNode?   = self.board?.row.childNodeWithName("playerName") as? SKLabelNode
-        
-        if let playerLabel = label
-        {
-            label!.text="\(self.name) win"
-        }
+        var t = "\(self.name) win"
         
         if( self.isThirdPerson )
         {
-            label!.text += "s"
+            t += "s"
         }
         
-        label!.text += "!"
+        t += "!"
+        
+        let label:SKLabelNode?   = self.board?.row.childNodeWithName("playerName") as? SKLabelNode
+        if let playerLabel = label
+        {
+            label!.text = t
+        }
+        
+        return t
         
     }
     

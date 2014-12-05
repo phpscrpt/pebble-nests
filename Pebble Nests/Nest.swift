@@ -214,12 +214,6 @@ class Nest{
         {
             let lastPebbleCount = self.pebbles.count
             var pebbleTextCount = "\(lastPebbleCount)"
-            
-            if( lastPebbleCount > 1 )
-            {
-                //pebbleTextCount = pebbleTextCount + "s"
-            }
-            
             label!.text = pebbleTextCount
         }
     }
