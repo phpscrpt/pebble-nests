@@ -25,10 +25,13 @@ class GameScene: SKScene, SettingsSceneDelegate, ADBannerViewDelegate {
         self.loadSounds()
         
         //------ IAD BANNER VIEW -------
-        let adBanner = ADBannerView(frame: CGRect.zeroRect)
-        adBanner.center = CGPoint(x: adBanner.center.x, y: view.bounds.size.height - adBanner.frame.size.height / 2)
+        let adBanner      = ADBannerView(adType: ADAdType.Banner)
+        adBanner.frame    = CGRectZero
+        adBanner.center   = CGPoint(x: adBanner.center.x, y: view.bounds.size.height - adBanner.frame.size.height / 2)
         adBanner.delegate = self
         adBanner.hidden   = true
+        adBanner.autoresizingMask = UIViewAutoresizing.FlexibleBottomMargin | UIViewAutoresizing.FlexibleRightMargin
+        
         self.adBannerView = adBanner
         
         let boardSize      = CGSize(width:280,height: 500)
@@ -174,7 +177,7 @@ class GameScene: SKScene, SettingsSceneDelegate, ADBannerViewDelegate {
             self.manuallyPaused = true
             self.pauseGame()
             
-            let howToPlay = "The objective of the game is to move all pebbles you have in 4 nests to either your main nest or to your opponent's side. Each time you empty all your nests, you cover one of your nests. The game ends when one of players covers all nests he/she has. You may have to push pebbles of your opponent backward or add pebbles to his/her nests in order to make it difficult for him/her to win. Therefore, you need to calculate up to which nest your pebbles can reach before selecting a nest to play."
+            let howToPlay = "The objective of this game is to move all pebbles you have in 4 nests to either your main nest or to your opponent's side. Each time you empty all your nests, you cover one of your nests. The game ends when a player covers all nests he/she has. You may have to push pebbles of your opponent backward or add pebbles to his/her nests in order to make it difficult for him/her to win. Therefore, you need to calculate up to which nest your pebbles can reach before selecting a nest to play. There you go, just touch a nest to play with..."
             
             // Create the alert controller
             var alertController = UIAlertController(title: "How To Play Pebble Nests:", message: howToPlay, preferredStyle: .Alert)
