@@ -8,19 +8,28 @@
 //
 
 import SpriteKit
+import iAd
 
-class GameScene: SKScene, SettingsSceneDelegate {
+class GameScene: SKScene, SettingsSceneDelegate, ADBannerViewDelegate {
     
     var game: Game?
     var settingsView: SKView?
     var manuallyPaused: Bool=false
-    var sounds:[String:SKAction]?
+    var sounds:[String:SKAction]=[:]
+    var adBannerView: ADBannerView?
     
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
         
         //--- preload sound actions ----
         self.loadSounds()
+        
+        //------ IAD BANNER VIEW -------
+        let adBanner = ADBannerView(frame: CGRect.zeroRect)
+        adBanner.center = CGPoint(x: adBanner.center.x, y: view.bounds.size.height - adBanner.frame.size.height / 2)
+        adBanner.delegate = self
+        adBanner.hidden   = true
+        self.adBannerView = adBanner
         
         let boardSize      = CGSize(width:280,height: 500)
         let gameBoard      = SKSpriteNode(imageNamed:"board")
@@ -241,19 +250,18 @@ class GameScene: SKScene, SettingsSceneDelegate {
     
     func loadSounds()
     {
-        self.sounds = [:]
-        self.sounds?[GameActions.movePebbleSound.name()] = GameActions.movePebbleSound.action()
-        self.sounds?[GameActions.blinkSound.name()]      = GameActions.blinkSound.action()
-        self.sounds?[GameActions.turnEnd.name()]         = GameActions.turnEnd.action()
-        self.sounds?[GameActions.nestClosedSound.name()] = GameActions.nestClosedSound.action()
-        self.sounds?[GameActions.gameOver.name()]        = GameActions.gameOver.action()
-        self.sounds?[GameActions.replayGameSound.name()] = GameActions.replayGameSound.action()
+        self.sounds[GameActions.movePebbleSound.name()] = GameActions.movePebbleSound.action()
+        self.sounds[GameActions.blinkSound.name()]      = GameActions.blinkSound.action()
+        self.sounds[GameActions.turnEnd.name()]         = GameActions.turnEnd.action()
+        self.sounds[GameActions.nestClosedSound.name()] = GameActions.nestClosedSound.action()
+        self.sounds[GameActions.gameOver.name()]        = GameActions.gameOver.action()
+        self.sounds[GameActions.replayGameSound.name()] = GameActions.replayGameSound.action()
         
     }
     
     func getSound(sound:String)->SKAction
     {
-        return self.sounds![sound]!
+        return self.sounds[sound]!
     }
     
     func releaseSubViews(var subs:[UIView])
@@ -295,8 +303,12 @@ class GameScene: SKScene, SettingsSceneDelegate {
     
     func resumeGame()
     {
+        //--- preload sound actions ----
+        self.loadSounds()
+
         self.view?.paused=false
         self.game?.resume()
+        
     }
     
     func pauseGameAuto()
@@ -320,11 +332,40 @@ class GameScene: SKScene, SettingsSceneDelegate {
 
     }
     
+    func bannerViewWillLoadAd(banner: ADBannerView!) {
+        //NSLog("bannerViewWillLoadAd")
+    }
+    
+    func bannerViewDidLoadAd(banner: ADBannerView!) {
+        //NSLog("bannerViewDidLoadAd")
+        self.adBannerView?.hidden = false
+    }
+    
+    func bannerViewActionDidFinish(banner: ADBannerView!) {
+        //NSLog("bannerViewDidLoadAd")
+        
+        self.resumeGame()
+        
+    }
+    
+    func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
+        //NSLog("bannerViewActionShouldBegin")
+        
+        self.pauseGame()
+        return true
+    }
+    
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+        //NSLog("bannerView")
+        
+        self.adBannerView?.hidden=true
+    }
+    
     deinit
     {
+        self.sounds.removeAll(keepCapacity: false)
         self.game=nil
         self.settingsView=nil
-        self.sounds=nil
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     

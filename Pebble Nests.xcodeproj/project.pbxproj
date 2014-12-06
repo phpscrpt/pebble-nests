@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72824C111A3142F300E0DE15 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72824C101A3142F300E0DE15 /* iAd.framework */; };
 		72C5FC091A1B0A7300D07DDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC081A1B0A7300D07DDC /* AppDelegate.swift */; };
 		72C5FC0B1A1B0A7300D07DDC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 72C5FC0A1A1B0A7300D07DDC /* GameScene.sks */; };
 		72C5FC0D1A1B0A7300D07DDC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C5FC0C1A1B0A7300D07DDC /* GameScene.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		72824C101A3142F300E0DE15 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		72C5FC031A1B0A7300D07DDC /* Pebble Nests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pebble Nests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C5FC071A1B0A7300D07DDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		72C5FC081A1B0A7300D07DDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72824C111A3142F300E0DE15 /* iAd.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +90,7 @@
 		72C5FBFA1A1B0A7300D07DDC = {
 			isa = PBXGroup;
 			children = (
+				72824C101A3142F300E0DE15 /* iAd.framework */,
 				72C5FC051A1B0A7300D07DDC /* Pebble Nests */,
 				72C5FC1F1A1B0A7300D07DDC /* Pebble NestsTests */,
 				72C5FC041A1B0A7300D07DDC /* Products */,
@@ -215,6 +219,7 @@
 					};
 					72C5FC1B1A1B0A7300D07DDC = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = AGCYW7JGXZ;
 						TestTargetID = 72C5FC021A1B0A7300D07DDC;
 					};
 				};
@@ -357,6 +362,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "81d15f1a-c8d8-46ac-8e47-b8024a8fa0ae";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -393,6 +399,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "ce61df18-ba9b-46f5-bef0-62235e464256";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -429,6 +436,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -440,6 +449,7 @@
 				INFOPLIST_FILE = "Pebble NestsTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pebble Nests.app/Pebble Nests";
 			};
 			name = Debug;
@@ -448,6 +458,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -455,6 +467,7 @@
 				INFOPLIST_FILE = "Pebble NestsTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pebble Nests.app/Pebble Nests";
 			};
 			name = Release;
