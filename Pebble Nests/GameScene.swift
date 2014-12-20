@@ -32,6 +32,7 @@ class GameScene: SKScene, SettingsSceneDelegate, ADBannerViewDelegate {
         adBanner.hidden   = true
         adBanner.autoresizingMask = UIViewAutoresizing.FlexibleBottomMargin | UIViewAutoresizing.FlexibleRightMargin
         
+        self.view?.addSubview(adBanner)
         self.adBannerView = adBanner
         
         let boardSize      = CGSize(width:280,height: 500)
@@ -360,6 +361,8 @@ class GameScene: SKScene, SettingsSceneDelegate, ADBannerViewDelegate {
     
     func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
         //NSLog("bannerView")
+        
+        //NSLog(error.description)
         
         self.adBannerView?.hidden=true
     }

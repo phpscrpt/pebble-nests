@@ -75,8 +75,18 @@ class Player{
         
         if( listOk.count > 0 )
         {
-            let randomIndex = Int(arc4random_uniform(UInt32(listOk.count)))
-            let selectedNest = listOk[randomIndex]
+            
+            var selectedNest:Nest
+            
+            if( self.game?.smartPlay === false )
+            {
+                let randomIndex = Int(arc4random_uniform(UInt32(listOk.count)))
+                selectedNest = listOk[randomIndex]
+            }
+            else
+            {
+                selectedNest = self.selectSmart(listOk)
+            }
             
             let waitAction = SKAction.waitForDuration(1)
             selectedNest.image.runAction(waitAction, completion:{
@@ -91,6 +101,156 @@ class Player{
         else
         {
             return false
+        }
+    }
+    
+    func pebbleCount()->Int
+    {
+        var countPebbes = 0
+        let playables   = self.board?.playableNests()
+        
+        for n in playables! as [Nest]
+        {
+            countPebbes += n.pebbles.count
+        }
+        
+        return countPebbes
+    }
+    
+    func maxNestId()->Int
+    {
+        var minValue  = 0
+        var maxNestId = 0
+        for n in self.board?.nests as [Nest]!
+        {
+            if( n.nestId > minValue )
+            {
+                maxNestId = n.nestId
+                minValue  = maxNestId
+            }
+        }
+        
+        return maxNestId
+    }
+    
+    func aboutToFinish()->Bool
+    {
+        let playables       = self.board?.playableNests()
+        let criticalNestId  = self.maxNestId()-1
+        
+        if( playables?.count <= 2 && playables?.filter({$0.nestId == criticalNestId || $0.nestId == criticalNestId - 1}).count > 0 )
+        {
+            //NSLog("Attacking...")
+            return true
+        }
+        else
+        {
+            //NSLog("NOT EQUAL TO %d",self.maxNestId()-1)
+            return false
+        }
+    }
+    
+    func willFinish()->Bool
+    {
+        if( self.pebbleCount() <= 3 && self.board?.playableNests().count <= 2  )
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+    
+    func nest(nestId:Int)->Nest
+    {
+        let filterNests = self.board?.nests.filter({$0.nestId==nestId})
+        return filterNests![0]
+    }
+    
+    func specialCase()->Int?
+    {
+        let maxNestId      = self.maxNestId()
+        let playablesCount = self.board?.playableNests().count
+        
+        if( playablesCount! == 2 && self.pebbleCount() <= 3 )
+        {
+            return 0
+        }
+        else if( playablesCount! == 2 && self.nest(maxNestId-1).pebbles.count <= 2 && self.nest(maxNestId-3).pebbles.count == 1)
+        {
+            return 0
+        }
+        else if( playablesCount! == 2 && self.nest(maxNestId-2).pebbles.count <= 2 && self.nest(maxNestId-3).pebbles.count == 1)
+        {
+            return 0
+        }
+        else
+        {
+            return nil
+        }
+        
+    }
+    
+    func selectSmart(playableNests:[Nest])->Nest
+    {
+        
+        var maxToCompare:Int = 50
+        var minToCompare:Int = 0
+        var indFound:Int = -1
+        
+        if let indTemp = self.specialCase()
+        {
+            indFound = indTemp
+        }
+        else if( !self.willFinish() && self.opponent()!.aboutToFinish() )
+        {
+            for(var i=0; i<playableNests.count; i++)
+            {
+                let counts  = self.playFakeTurn(playableNests[i])
+                let opCount = counts.1
+                
+                if  opCount >= minToCompare
+                {
+                    indFound = i
+                    minToCompare = opCount
+                }
+            }
+            
+        }
+        else
+        {
+            let chance = Int(arc4random_uniform(UInt32(10)))
+            
+            if( chance != 1 )
+            {
+                for(var i=0; i<playableNests.count; i++)
+                {
+                    let counts  = self.playFakeTurn(playableNests[i])
+                    let nCount = counts.0
+                    
+                    if  nCount < maxToCompare
+                    {
+                        indFound = i
+                        maxToCompare = nCount
+                    }
+                }
+            }
+            else
+            {
+                //NSLog("playing by chance...")
+            }
+        }
+        
+        
+        if( indFound >= 0 )
+        {
+            return playableNests[indFound]
+        }
+        else
+        {
+            let randomIndex = Int(arc4random_uniform(UInt32(playableNests.count)))
+            return playableNests[randomIndex]
         }
     }
     
@@ -206,6 +366,96 @@ class Player{
         else
         {
             //NSLog("NEST WAS EMPTY MAN !")
+        }
+        
+    }
+    
+    func playFakeTurn(activeNest:Nest) -> (Int,Int)
+    {
+        
+        if let playerBoard = self.board
+        {
+            var activePebbles = activeNest.pebbles
+            
+            if( activePebbles.count == 0 )
+            {
+                return (0,0)
+            }
+            else
+            {
+                let opponent = self.opponent()!
+                
+                var nestChain: [Nest] = []
+                nestChain += playerBoard.nests.filter({$0.enabled})
+                
+                nestChain += opponent.board!.nests.reverse().filter({$0.enabled})
+                
+                var nestPebbles:[Int:Int] = [:]
+                
+                for(var j=0; j<nestChain.count; j++)
+                {
+                    nestPebbles[j] = nestChain[j].pebbles.count
+                }
+                
+                return self.playFakeNest(nestChain,activeNest:activeNest,nestPebbles: nestPebbles)
+                
+            }
+        }
+        else
+        {
+            return (0,0)
+        }
+    }
+    
+    func playFakeNest(nestChain:[Nest],activeNest:Nest,var nestPebbles: [Int:Int]) -> (Int,Int)
+    {
+        var nextInd = activeNest.nextIndexInChain(nestChain)
+        let currInd = activeNest.indexInChain(nestChain)
+        let pc      = nestPebbles[currInd!]
+        
+        nestPebbles[currInd!] = 0
+        var nextIndTemp = nextInd!
+        
+        for(var i=0; i<pc!; i++)
+        {
+            nextIndTemp = (nextInd! + i) % nestPebbles.count
+            nestPebbles[nextIndTemp]! += 1
+        }
+        
+        let nextNest = nestChain[nextIndTemp]
+        
+        if( !nextNest.isMain && nestPebbles[nextIndTemp]! > 1 )
+        {
+            return self.playFakeNest(nestChain,activeNest:nextNest,nestPebbles: nestPebbles)
+        }
+        else
+        {
+            var fakeNestCount   = 0
+            var fakeNestOpCount = 0
+            for n in self.board!.nests.filter({$0.enabled && !$0.isMain}) as [Nest]
+            {
+                for( var i=0; i<nestChain.count; i++ )
+                {
+                    if( nestChain[i].nestId == n.nestId && !nestChain[i].isMain && nestPebbles[i]! > 0 )
+                    {
+                        fakeNestCount++
+                    }
+                }
+            }
+            
+            for n in self.opponent()!.board!.nests.filter({$0.enabled && !$0.isMain}) as [Nest]
+            {
+                for( var i=0; i<nestChain.count; i++ )
+                {
+                    if( nestChain[i].nestId == n.nestId && !nestChain[i].isMain && nestPebbles[i]! > 0 )
+                    {
+                        fakeNestOpCount++
+                    }
+                }
+            }
+            
+            nestPebbles.removeAll(keepCapacity: false)
+            return (fakeNestCount,fakeNestOpCount)
         }
         
     }
@@ -404,6 +654,16 @@ class Player{
         }
         
         return nil
+    }
+    
+    func clonePlayer()->Player
+    {
+        var p = Player(game: self.game!)
+        
+        p.board = Board(position: CGPointZero, player: p, label: p.name)
+        p.board?.locateNests(count: 5,nestId: 1)
+        
+        return p
     }
     
     deinit

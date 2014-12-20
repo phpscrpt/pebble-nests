@@ -111,8 +111,9 @@ class Game{
     
     let mode:                 GameMode
     var audio:                Bool
+    var smartPlay:            Bool
     
-    init(scene:GameScene,name: String,mode:GameMode)
+    init(scene:GameScene,name: String,mode:GameMode,smart:Bool)
     {
         self.name           = name
         self.players        = []
@@ -122,6 +123,7 @@ class Game{
         self.tray           = SKSpriteNode()
         self.tray.position  = CGPoint(x:0,y:200)
         self.audio          = true
+        self.smartPlay      = smart
         
         scene.childNodeWithName("gameBoard")!.addChild(self.tray)
         
@@ -131,12 +133,12 @@ class Game{
     
     convenience init(scene: GameScene)
     {
-        self.init(scene: scene,name: "Pebble Nests",mode:GameMode.CompXHuman)
+        self.init(scene: scene,name: "Pebble Nests",mode:GameMode.CompXHuman,smart:true)
     }
     
     convenience init(scene: GameScene,mode:GameMode)
     {
-        self.init(scene: scene,name: "Pebble Nests",mode:mode)
+        self.init(scene: scene,name: "Pebble Nests",mode:mode,smart:true)
     }
     
     func setPlayerModes()
